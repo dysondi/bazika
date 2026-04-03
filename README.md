@@ -48,6 +48,12 @@ openclaw logs --follow
 openclaw logs --follow | grep bazika
 ```
 
+## Self-Improvement
+
+У репо додано workflow `.github/workflows/self-improve.yml`, який кожні 2 години може робити маленькі покращення `README.md`, `SOUL.md`, `IDENTITY.md` або `USER.md` через LLM і створювати PR.
+
+Для цього в GitHub Secrets має бути `OPENAI_API_KEY`.
+
 ---
 
 **Базіка завжди готовий допомогти.**
