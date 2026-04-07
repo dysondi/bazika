@@ -1,0 +1,52 @@
+name: self-improve
+
+on:
+  schedule:
+    - cron: "0 */2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  self-improve:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: python -m pip install requests
+
+      - name: Run self-improvement
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: gpt-5.4
+          SELF_IMPROVEMENT_MAX_CHANGED_LINES: 120
+        run: python automation/llm_self_improve.py
+
+      - name: Create pull request if changes exist
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "docs: automated self-improvement"
+          title: "docs: automated self-improvement"
+          body: |
+            Automated self-improvement for the Bazika agent repo.
+
+            Scope limits:
+            - only README.md / SOUL.md / IDENTITY.md / USER.md
+            - one small change per run
+            - no code or infra edits
+          branch: automation/self-improvement-${{ github.run_id }}
+          delete-branch: true

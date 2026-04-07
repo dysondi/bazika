@@ -1,0 +1,4 @@
+automation/.env
+automation/last_improvement.json
+__pycache__/
+*.pyc
