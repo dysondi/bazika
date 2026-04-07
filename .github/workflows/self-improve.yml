@@ -2,7 +2,7 @@ name: self-improve
 
 on:
   schedule:
-    - cron: "0 */2 * * *"
+    - cron: "0 0 * * *"
   workflow_dispatch:
 
 permissions:
@@ -41,6 +41,9 @@ jobs:
         with:
           commit-message: "docs: automated self-improvement"
           title: "docs: automated self-improvement"
+          labels: |
+            automated
+            self-improvement
           body: |
             Automated self-improvement for the Bazika agent repo.
 
