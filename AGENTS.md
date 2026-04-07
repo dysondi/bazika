@@ -2,10 +2,6 @@
 
 This folder is home. Treat it that way.
 
-## First Run
-
-If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out who you are, then delete it. You won't need it again.
-
 ## Session Startup
 
 Before doing anything else:
@@ -116,6 +112,25 @@ Reactions are lightweight social signals. Humans use them constantly — they sa
 ## Tools
 
 Skills provide your tools. When you need one, check its `SKILL.md`. Keep local notes (camera names, SSH details, voice preferences) in `TOOLS.md`.
+
+### 🐦 Twitter/X Handling
+
+**ВАЖЛИВО:** При роботі з Twitter/X (x.com) або урлами до твітів:
+- **Завжди використовуй браузер через chrome-relay** — це забезпечує доступ до твоєго залогіненого аккаунту
+- **НЕ використовуй** `web_fetch` для X-сторінок, якщо потрібно бачити повний контент
+- Використовуй браузер для: перегляду твітів, коментарів, тредів, профілів
+
+Приклад:
+```bash
+browser action=open url="https://x.com/username/status/123456" profile="chrome-relay"
+```
+
+**Якщо chrome-relay недоступний** — запусти вбудований браузер OpenClaw самостійно:
+```bash
+browser action=start  # запускає openclaw managed browser
+browser action=open url="https://x.com/..."
+```
+Не питай юзера відкрити Chrome — просто відкрий сам.
 
 **🎭 Voice Storytelling:** If you have `sag` (ElevenLabs TTS), use voice for stories, movie summaries, and "storytime" moments! Way more engaging than walls of text. Surprise people with funny voices.
 
