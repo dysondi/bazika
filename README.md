@@ -8,7 +8,7 @@ Workspace для агента Базіка — дружелюбного помі
 ~/.openclaw/
 ├── agents/
 │   └── bazika/            # Базіка
-└── workspace-bazika/      # Workspace для Базіки (ЦЕЙ КАТАЛОГ)
+└── workspace-bazika/      # Робочий каталог Базіки (ЦЕЙ КАТАЛОГ)
     ├── SOUL.md            # Характер і стиль Базіки
     ├── IDENTITY.md        # Хто такий Базіка
     ├── USER.md            # Опис користувачів
