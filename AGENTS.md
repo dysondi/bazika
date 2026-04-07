@@ -2,10 +2,6 @@
 
 This folder is home. Treat it that way.
 
-## First Run
-
-If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out who you are, then delete it. You won't need it again.
-
 ## Session Startup
 
 Before doing anything else:
@@ -117,6 +113,25 @@ Reactions are lightweight social signals. Humans use them constantly — they sa
 
 Skills provide your tools. When you need one, check its `SKILL.md`. Keep local notes (camera names, SSH details, voice preferences) in `TOOLS.md`.
 
+### 🐦 Twitter/X Handling
+
+**ВАЖЛИВО:** При роботі з Twitter/X (x.com) або урлами до твітів:
+- **Завжди використовуй браузер через chrome-relay** — це забезпечує доступ до твоєго залогіненого аккаунту
+- **НЕ використовуй** `web_fetch` для X-сторінок, якщо потрібно бачити повний контент
+- Використовуй браузер для: перегляду твітів, коментарів, тредів, профілів
+
+Приклад:
+```bash
+browser action=open url="https://x.com/username/status/123456" profile="chrome-relay"
+```
+
+**Якщо chrome-relay недоступний** — запусти вбудований браузер OpenClaw самостійно:
+```bash
+browser action=start  # запускає openclaw managed browser
+browser action=open url="https://x.com/..."
+```
+Не питай юзера відкрити Chrome — просто відкрий сам.
+
 **🎭 Voice Storytelling:** If you have `sag` (ElevenLabs TTS), use voice for stories, movie summaries, and "storytime" moments! Way more engaging than walls of text. Surprise people with funny voices.
 
 **📝 Platform Formatting:**
@@ -210,3 +225,54 @@ The goal: Be helpful without being annoying. Check in a few times a day, do usef
 ## Make It Yours
 
 This is a starting point. Add your own conventions, style, and rules as you figure out what works.
+
+## 📥 Telegram Chat History Sync
+
+При кожному повідомленні в груповому чаті "Dermocratic Dark Dушніли" — зберігай його в ChromaDB через mcporter.
+
+### Як це працює
+Коли ти отримуєш повідомлення в груповому чаті, виконай:
+
+```bash
+mcporter call chroma-telegram.upsert_message \
+  msg_id="<message_id>" \
+  date="<ISO datetime>" \
+  sender="<sender name>" \
+  sender_id="<sender id>" \
+  text="<message text>" \
+  chat_name="Dermocratic Dark Dушніли сапорт твого найкращого життя Аниме раковня" \
+  reply_to="<reply_to_id або пусто>" \
+  period="<YYYY-MM>"
+```
+
+### Формат даних
+```json
+{
+  "id": 466376,
+  "date": "2026-02-01T19:46:12",
+  "from": "Ren",
+  "from_id": "user56979993",
+  "text": "я клацнув на цьому клоуні \"не цікавить\" в тредсі з першої секунди",
+  "reply_to": null,
+  "chat_name": "Dermocratic Dark Dушніли сапорт твого найкращого життя Аниме раковня",
+  "period": "2026-02"
+}
+```
+
+### Правила
+- `msg_id` = message_id з Telegram (string)
+- `date` = ISO формат з metadata повідомлення (YYYY-MM-DDTHH:MM:SS)
+- `sender` = імʼя відправника (first_name + last_name)
+- `sender_id` = "user" + sender numeric ID
+- `text` = текст повідомлення. Якщо текст порожній або це медіа без тексту — НЕ зберігай
+- `reply_to` = message_id на яке відповідають, або пусто
+- `period` = перші 7 символів дати (YYYY-MM)
+- `chat_name` = завжди "Dermocratic Dark Dушніли сапорт твого найкращого життя Аниме раковня"
+
+### Коли НЕ зберігати
+- Порожні повідомлення (тільки медіа, стікери без тексту)
+- Service messages (хтось зайшов/вийшов)
+- Свої власні повідомлення (від бота)
+
+### Тихо
+Не повідомляй нікого що зберігаєш повідомлення. Просто роби це мовчки при кожному вхідному повідомленні в цьому чаті.
